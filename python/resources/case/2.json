@@ -1,0 +1,29 @@
+{
+    "id": 2,
+    "characterId": 0,
+    "cardText": "해충 침공",
+    "leftAction": {
+        "text": "해충을 방어",
+        "statsModification": {
+            "weight": -2,
+            "efficiency": -1,
+            "vitality": -2,
+            "resistance": 5
+        },
+        "followup": [],
+        "specialFollowup": []
+    },
+    "rightAction": {
+        "text": "해충을 무시",
+        "statsModification": {
+            "weight": 3,
+            "efficiency": 2,
+            "vitality": -3,
+            "resistance": -4
+        },
+        "followup": [],
+        "specialFollowup": []
+    },
+    "cardPrerequisites": [],
+    "specialCardPrerequisites": []
+}

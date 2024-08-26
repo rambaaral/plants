@@ -1,0 +1,29 @@
+{
+    "id": 1,
+    "characterId": 0,
+    "cardText": "강한 햇빛",
+    "leftAction": {
+        "text": "잎을 펴 햇빛을 흡수",
+        "statsModification": {
+            "weight": 4,
+            "efficiency": 2,
+            "vitality": -3,
+            "resistance": -1
+        },
+        "followup": [],
+        "specialFollowup": []
+    },
+    "rightAction": {
+        "text": "잎을 오므려 햇빛을 피한다",
+        "statsModification": {
+            "weight": -1,
+            "efficiency": 2,
+            "vitality": 3,
+            "resistance": 4
+        },
+        "followup": [],
+        "specialFollowup": []
+    },
+    "cardPrerequisites": [],
+    "specialCardPrerequisites": []
+}

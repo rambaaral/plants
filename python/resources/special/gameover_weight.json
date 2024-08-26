@@ -1,7 +1,7 @@
 {
-    "id": "gameover_food",
+    "id": "gameover_weight",
     "characterId": -1,
-    "cardText": "Hunger consumes the city, as food reserves deplete.",
+    "cardText": "크기가 너무 커지거나 작아져서 죽을 수 있나?",
     "leftAction": {
         "text": "",
         "followup": [],

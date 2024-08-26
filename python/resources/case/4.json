@@ -1,25 +1,25 @@
 {
-    "id": 0,
+    "id": 4,
     "characterId": 0,
-    "cardText": "비오는 날",
+    "cardText": "강한 바람",
     "leftAction": {
-        "text": "빗물을 최대한 흡수",
+        "text": "견딘다",
         "statsModification": {
-            "weight": 5,
-            "efficiency": -3,
-            "vitality": 2,
-            "resistance": -2
+            "weight": -1,
+            "efficiency": -2,
+            "vitality": 3,
+            "resistance": 4
         },
         "followup": [],
         "specialFollowup": []
     },
     "rightAction": {
-        "text": "빗물을 조금만 흡수",
+        "text": "피한다",
         "statsModification": {
             "weight": 1,
-            "efficiency": 3,
-            "vitality": 1,
-            "resistance": 2
+            "efficiency": 2,
+            "vitality": -2,
+            "resistance": -3
         },
         "followup": [],
         "specialFollowup": []

@@ -1,25 +1,25 @@
 {
-    "id": 0,
+    "id": 3,
     "characterId": 0,
-    "cardText": "비오는 날",
+    "cardText": "좋은 토양",
     "leftAction": {
-        "text": "빗물을 최대한 흡수",
+        "text": "영양분 흡수 최대로",
         "statsModification": {
             "weight": 5,
-            "efficiency": -3,
+            "efficiency": 2,
             "vitality": 2,
-            "resistance": -2
+            "resistance": -1
         },
         "followup": [],
         "specialFollowup": []
     },
     "rightAction": {
-        "text": "빗물을 조금만 흡수",
+        "text": "영양분 흡수 적당히",
         "statsModification": {
-            "weight": 1,
+            "weight": 2,
             "efficiency": 3,
-            "vitality": 1,
-            "resistance": 2
+            "vitality": 3,
+            "resistance": 1
         },
         "followup": [],
         "specialFollowup": []
