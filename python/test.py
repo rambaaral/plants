@@ -1,43 +1,45 @@
 import tkinter as tk
+from tkinter import ttk
 
+# 메인 윈도우 생성
 window = tk.Tk()
+window.title("Gauge and Buttons Example")
 
-window.title("집가고싶다")
-window.geometry("800x450+100+100")
+# 윈도우 크기 설정
+window.geometry("400x500")
 
-frame = tk.Frame(window)
-frame.pack(fill=tk.BOTH, expand=True)
+# 게이지와 이름을 담을 프레임 생성
+gauge_frame = tk.Frame(window)
+gauge_frame.pack(side=tk.TOP, pady=20)
 
-label1 = tk.Label(frame, text="평문")
+# 4개의 세로 게이지와 이름 생성
+gauges = []
+gauge_names = ["체급", "효율", "활력", "저항력"]
 
-inoutput1 = tk.Text(frame, width=20, height=5)
+for i in range(4):
+    gauge = ttk.Progressbar(gauge_frame, orient="vertical", length=200, mode="determinate")
+    gauge.grid(row=0, column=i, padx=10)
+    gauges.append(gauge)
+    
+    label = tk.Label(gauge_frame, text=gauge_names[i])
+    label.grid(row=1, column=i, padx=10)
 
-button1 = tk.Button(frame, text="암호화")
+# 하단 중앙의 편집 불가능한 텍스트 라벨
+text_frame = tk.Frame(window)
+text_frame.pack(side=tk.TOP, pady=20)
 
-label_input1 = tk.Label(frame, text="시프트 수")
+central_label = tk.Label(text_frame, text="Central Text", relief="solid", width=20)
+central_label.pack(side=tk.TOP)
 
-input1 = tk.Entry(frame, width=5)
+# 버튼 프레임 생성
+button_frame = tk.Frame(window)
+button_frame.pack(side=tk.TOP, pady=20)
 
-button2 = tk.Button(frame, text="복호화")
+# 버튼 생성
+left_button = tk.Button(button_frame, text="Left Button", width=20)
+left_button.grid(row=0, column=0, padx=10)
 
-label2 = tk.Label(frame, text="암호문")
-
-inoutput2 = tk.Text(frame, width=20, height=5)
-
-
-
-label1.grid(row=0, column=0, padx=5, pady=5, sticky="n")
-inoutput1.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
-button1.grid(row=1, column=1, padx=5, pady=5)
-label_input1.grid(row=0, column=2, padx=5, pady=5, sticky="n")
-input1.grid(row=1, column=2, padx=5, pady=5)
-button2.grid(row=1, column=3, padx=5, pady=5)
-label2.grid(row=0, column=4, padx=5, pady=5, sticky="n")
-inoutput2.grid(row=1, column=4, padx=5, pady=5, sticky="nsew")
-
-
-frame.grid_rowconfigure(1, weight=1)
-frame.grid_columnconfigure(0, weight=1)
-frame.grid_columnconfigure(4, weight=1)
+right_button = tk.Button(button_frame, text="Right Button", width=20)
+right_button.grid(row=0, column=1, padx=10)
 
 window.mainloop()
