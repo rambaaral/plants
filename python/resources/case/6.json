@@ -1,0 +1,29 @@
+{
+    "id": 6,
+    "characterId": 0,
+    "cardText": "가뭄이 온다",
+    "leftAction": {
+        "text": "깊게 뿌리를 내려 물을 찾는다",
+        "statsModification": {
+            "weight": 3,
+            "efficiency": -2,
+            "vitality": -3,
+            "resistance": 4
+        },
+        "followup": [],
+        "specialFollowup": []
+    },
+    "rightAction": {
+        "text": "물을 절약하고 생장을 늦춘다",
+        "statsModification": {
+            "weight": -1,
+            "efficiency": 2,
+            "vitality": 1,
+            "resistance": 3
+        },
+        "followup": [],
+        "specialFollowup": []
+    },
+    "cardPrerequisites": [],
+    "specialCardPrerequisites": []
+}

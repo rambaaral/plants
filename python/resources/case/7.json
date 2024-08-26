@@ -1,0 +1,29 @@
+{
+    "id": 7,
+    "characterId": 0,
+    "cardText": "토양의 영양 부족",
+    "leftAction": {
+        "text": "빠르게 자라는 것을 포기하고 뿌리의 깊이를 늘린다",
+        "statsModification": {
+            "weight": -2,
+            "efficiency": 3,
+            "vitality": 2,
+            "resistance": 3
+        },
+        "followup": [],
+        "specialFollowup": []
+    },
+    "rightAction": {
+        "text": "남은 영양소를 최대한 효율적으로 사용한다",
+        "statsModification": {
+            "weight": 2,
+            "efficiency": 4,
+            "vitality": -1,
+            "resistance": -1
+        },
+        "followup": [],
+        "specialFollowup": []
+    },
+    "cardPrerequisites": [],
+    "specialCardPrerequisites": []
+}

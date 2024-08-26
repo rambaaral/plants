@@ -1,0 +1,29 @@
+{
+    "id": 5,
+    "characterId": 0,
+    "cardText": "새로운 식물 이웃",
+    "leftAction": {
+        "text": "경쟁하여 더 빠르게 성장한다",
+        "statsModification": {
+            "weight": 4,
+            "efficiency": 2,
+            "vitality": -3,
+            "resistance": -2
+        },
+        "followup": [],
+        "specialFollowup": []
+    },
+    "rightAction": {
+        "text": "협력하여 공생한다",
+        "statsModification": {
+            "weight": 1,
+            "efficiency": 3,
+            "vitality": 4,
+            "resistance": 2
+        },
+        "followup": [],
+        "specialFollowup": []
+    },
+    "cardPrerequisites": [],
+    "specialCardPrerequisites": []
+}

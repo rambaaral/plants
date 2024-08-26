@@ -1,0 +1,29 @@
+{
+    "id": 11,
+    "characterId": 0,
+    "cardText": "인위적 간섭",
+    "leftAction": {
+        "text": "인위적 간섭을 수용한다",
+        "statsModification": {
+            "weight": 3,
+            "efficiency": 2,
+            "vitality": -3,
+            "resistance": -2
+        },
+        "followup": [],
+        "specialFollowup": []
+    },
+    "rightAction": {
+        "text": "자연스러운 성장을 유지한다",
+        "statsModification": {
+            "weight": 1,
+            "efficiency": 1,
+            "vitality": 2,
+            "resistance": 3
+        },
+        "followup": [],
+        "specialFollowup": []
+    },
+    "cardPrerequisites": [],
+    "specialCardPrerequisites": []
+}

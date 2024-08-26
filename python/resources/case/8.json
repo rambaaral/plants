@@ -1,0 +1,29 @@
+{
+    "id": 8,
+    "characterId": 0,
+    "cardText": "겨울이 다가온다",
+    "leftAction": {
+        "text": "에너지를 저장하여 겨울을 대비한다",
+        "statsModification": {
+            "weight": -2,
+            "efficiency": -1,
+            "vitality": 3,
+            "resistance": 4
+        },
+        "followup": [],
+        "specialFollowup": []
+    },
+    "rightAction": {
+        "text": "추위를 이겨내기 위해 성장 속도를 유지한다",
+        "statsModification": {
+            "weight": 3,
+            "efficiency": 2,
+            "vitality": -3,
+            "resistance": -2
+        },
+        "followup": [],
+        "specialFollowup": []
+    },
+    "cardPrerequisites": [],
+    "specialCardPrerequisites": []
+}

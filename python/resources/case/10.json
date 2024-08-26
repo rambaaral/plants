@@ -1,0 +1,29 @@
+{
+    "id": 10,
+    "characterId": 0,
+    "cardText": "잎의 색 변화",
+    "leftAction": {
+        "text": "잎 색을 되돌리기 위해 추가 영양분을 사용한다",
+        "statsModification": {
+            "weight": -1,
+            "efficiency": 3,
+            "vitality": 3,
+            "resistance": 2
+        },
+        "followup": [],
+        "specialFollowup": []
+    },
+    "rightAction": {
+        "text": "잎 색 변화에 적응한다",
+        "statsModification": {
+            "weight": 2,
+            "efficiency": 1,
+            "vitality": -2,
+            "resistance": 3
+        },
+        "followup": [],
+        "specialFollowup": []
+    },
+    "cardPrerequisites": [],
+    "specialCardPrerequisites": []
+}

@@ -1,0 +1,29 @@
+{
+    "id": 9,
+    "characterId": 0,
+    "cardText": "강풍과 폭우",
+    "leftAction": {
+        "text": "뿌리를 더 깊게 내린다",
+        "statsModification": {
+            "weight": -1,
+            "efficiency": 2,
+            "vitality": 3,
+            "resistance": 4
+        },
+        "followup": [],
+        "specialFollowup": []
+    },
+    "rightAction": {
+        "text": "지면에 더 가까이 성장한다",
+        "statsModification": {
+            "weight": 1,
+            "efficiency": 1,
+            "vitality": -2,
+            "resistance": 2
+        },
+        "followup": [],
+        "specialFollowup": []
+    },
+    "cardPrerequisites": [],
+    "specialCardPrerequisites": []
+}
