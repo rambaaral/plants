@@ -1,0 +1,15 @@
+{
+    "id": "gameover_resistance",
+    "characterId": -1,
+    "cardText": "저항력이 떨어질 경우 어떻게 죽을까",
+    "leftAction": {
+        "text": "",
+        "followup": [],
+        "specialFollowup": []
+    },
+    "rightAction": {
+        "text": "",
+        "followup": [],
+        "specialFollowup": []
+    }
+}

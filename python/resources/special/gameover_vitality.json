@@ -1,0 +1,15 @@
+{
+    "id": "gameover_vitality",
+    "characterId": -1,
+    "cardText": "식물의 활력이 떨진다는게 뭘까?",
+    "leftAction": {
+        "text": "",
+        "followup": [],
+        "specialFollowup": []
+    },
+    "rightAction": {
+        "text": "",
+        "followup": [],
+        "specialFollowup": []
+    }
+}

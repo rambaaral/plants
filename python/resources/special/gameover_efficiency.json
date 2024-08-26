@@ -1,0 +1,15 @@
+{
+    "id": "gameover_efficiency",
+    "characterId": -1,
+    "cardText": "효율이 떨어지면 어떻게 죽을까?",
+    "leftAction": {
+        "text": "",
+        "followup": [],
+        "specialFollowup": []
+    },
+    "rightAction": {
+        "text": "",
+        "followup": [],
+        "specialFollowup": []
+    }
+}
