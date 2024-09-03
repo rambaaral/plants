@@ -8,7 +8,7 @@ base_dir = os.path.dirname(os.path.abspath(__file__))
 
 # 현재 로드된 파일 번호와 최대 파일 번호
 current_file_index = 0
-max_file_index = 4
+max_file_index = 10
 
 def load_json(file_index):
     file_name = f'{file_index}.json'
