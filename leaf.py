@@ -14,6 +14,12 @@ def leaf(length, radius, idx):
     bpy.ops.mesh.primitive_plane_add(size = a, align = 'WORLD', location = (0, 0, 0))
         
     mesh = bpy.context.active_object
+    mesh.name = f"leaf{idx}"
+    
+    new_collection.objects.link(mesh)
+    
+    bpy.context.collection.objects.unlink(mesh)
+    
     mesh.rotation_euler[0] = math.pi/2
         
     # 편집 모드 진입
@@ -53,42 +59,24 @@ def leaf(length, radius, idx):
     # 원형 커브 생성
     bpy.ops.curve.primitive_bezier_circle_add(radius=radius, enter_editmode=False, align='WORLD', location=(0, 0, 0))
     circle_curve = bpy.context.active_object
+    circle_curve.name = f"leaf_curve{idx}"
+    
+    
+    new_collection.objects.link(circle_curve)
+    
+    bpy.context.collection.objects.unlink(circle_curve)
+    
+    circle_curve.rotation_euler.x = 3.14159*idx
 
     # 평면에 커브 수정자 추가
     curve_modifier = mesh.modifiers.new(name="Curve", type='CURVE')
-
+    
     # 커브 수정자 설정
     curve_modifier.object = circle_curve
     curve_modifier.deform_axis = 'POS_X'
     
 import bpy
 
-def flip_collection(collection_name, axis='X'):
-    # 컬렉션을 가져옵니다.
-    if collection_name in bpy.data.collections:
-        collection = bpy.data.collections[collection_name]
-    else:
-        print(f"컬렉션 '{collection_name}'을 찾을 수 없습니다.")
-        return
-
-  # 컬렉션의 모든 오브젝트를 반복합니다.
-    for obj in collection.objects:
-    # 오브젝트를 선택합니다.
-        obj.select_set(True)
-
-    # 활성 오브젝트로 설정합니다.
-        bpy.context.view_layer.objects.active = obj
-
-    # 스케일을 반전합니다.
-        if axis == 'X':
-            obj.scale.x *= -1
-        elif axis == 'Y':
-            obj.scale.y *= -1
-        elif axis == 'Z':
-            obj.scale.z *= -1
-
-        # 선택을 해제합니다.
-        obj.select_set(False)
 
 
 
@@ -96,13 +84,13 @@ def flip_collection(collection_name, axis='X'):
 #일단 길이 먼저
 
 def main():
-    leaf_length_df = pd.read_csv("length.csv") #기간 설정이 가능한데 일단 9월1일부터
-    leaf_area_df = pd.read_csv("area.csv")
-    senescence_ratio_df = pd.read_csv("senescence_ratio.csv")
+    leaf_length_df = pd.read_csv("C:/Users/robot/Documents/galicmodel/length.csv") #기간 설정이 가능한데 일단 9월1일부터
+    leaf_area_df = pd.read_csv("C:/Users/robot/Documents/galicmodel/area.csv")
+    senescence_ratio_df = pd.read_csv("C:/Users/robot/Documents/galicmodel/senescence_ratio.csv")
 
     # date = input("날짜입력(09-01부터 07-06)")
 
-    id = int(input("인덱스 입력"))
+    id = 300
 
     leaf_length = leaf_length_df.iloc[id]
     leaf_area = leaf_area_df.iloc[id]
@@ -126,16 +114,12 @@ def main():
              radius_list.append(radius)
         except ValueError:
             radius_list.append(0)
-    
-
-    print(rowmax, length_list, radius_list)
 
     for i in range(rowmax-1):
 
         leaf(length_list[i], radius_list[i], i+1)
 
-        if not i//2 == 0:
-            flip_collection(f"leaf{i+1}")
+
 
 
 
