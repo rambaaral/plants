@@ -9,14 +9,26 @@ def leaf(length, radius, idx):
 
     # 씬에 컬렉션을 추가합니다.
     bpy.context.scene.collection.children.link(new_collection)
-
+    
+    if idx > 1:
+        pre_coll_name = f"leaf{idx-1}"
+        pre_coll = bpy.data.collections.get(pre_coll_name)
+ 
+        pre_obj = pre_coll.objects[0]
+        pre_obj_data = pre_obj.data
+        zzz = pre_obj_data.vertices[3].co.z
+    else:
+        zzz = 0
+            
     a = round(radius*2*math.pi, 2)
-    bpy.ops.mesh.primitive_plane_add(size = a, align = 'WORLD', location = (0, 0, 0))
+    bpy.ops.mesh.primitive_plane_add(size = a, align = 'WORLD', location = (0, 0, 10))
         
     mesh = bpy.context.active_object
     mesh.name = f"leaf{idx}"
     
     new_collection.objects.link(mesh)
+    
+    bpy.context.collection.objects.unlink(mesh)
     
     mesh.rotation_euler[0] = math.pi/2
         
@@ -30,7 +42,7 @@ def leaf(length, radius, idx):
     bpy.ops.mesh.bisect(plane_co=(0, 0, 0), plane_no=(1, 0, 0), clear_inner=True, clear_outer=False)
 
     bpy.ops.mesh.select_all(action='SELECT')
-    bpy.ops.mesh.subdivide(number_cuts=10)
+    bpy.ops.mesh.subdivide(number_cuts=11)
 
     # 5번 꼭짓점 선택
     bpy.ops.object.mode_set(mode = 'OBJECT')
@@ -61,6 +73,10 @@ def leaf(length, radius, idx):
     
     
     new_collection.objects.link(circle_curve)
+    
+    bpy.context.collection.objects.unlink(circle_curve)
+    
+    circle_curve.rotation_euler.x = 3.14159*idx
 
     # 평면에 커브 수정자 추가
     curve_modifier = mesh.modifiers.new(name="Curve", type='CURVE')
@@ -68,31 +84,6 @@ def leaf(length, radius, idx):
     # 커브 수정자 설정
     curve_modifier.object = circle_curve
     curve_modifier.deform_axis = 'POS_X'
-    
-    if idx//2 == 0:
-        flip_collection(f"leaf{idx}")
-    
-import bpy
-
-def flip_collection(collection_name, axis='Z'):
-    # 컬렉션을 가져옵니다.
-    if collection_name in bpy.data.collections:
-        collection = bpy.data.collections[collection_name]
-    else:
-        print(f"컬렉션 '{collection_name}'을 찾을 수 없습니다.")
-        return
-
-    # 컬렉션의 모든 오브젝트를 반복합니다.
-    obj = collection.objects[1]
-    # 오브젝트를 선택합니다.
-    obj.select_set(True)
-    # 활성 오브젝트로 설정합니다.
-    bpy.context.view_layer.objects.active = obj
-    
-    bpy.ops.transform.rotate(value=math.radians(180), orient_axis='X', orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', constraint_axis=(True, True, True), mirror=True, use_proportional_edit=False, proportional_edit_falloff='SMOOTH', proportional_size=1, use_proportional_connected=False, use_proportional_projected=False)
-
-    # 선택을 해제합니다.
-    obj.select_set(False)
 
 
 
@@ -102,22 +93,21 @@ def flip_collection(collection_name, axis='Z'):
 def main():
     leaf_length_df = pd.read_csv("/Users/paspasnyan/Documents/블렌드/length.csv") #기간 설정이 가능한데 일단 9월1일부터
     leaf_area_df = pd.read_csv("/Users/paspasnyan/Documents/블렌드/area.csv")
-    senescence_ratio_df = pd.read_csv("/Users/paspasnyan/Documents/블렌드/senescence_ratio.csv")
-
+    # senescence_ratio_df = pd.read_csv("/Users/paspasnyan/Documents/블렌드/senescence_ratio.csv") #아직 안씀
     # date = input("날짜입력(09-01부터 07-06)")
 
-    id = 150
+    id = 300
 
     leaf_length = leaf_length_df.iloc[id]
     leaf_area = leaf_area_df.iloc[id]
-    #senescence_ratio = senescence_ratio_df.iloc[id]
+    # senescence_ratio = senescence_ratio_df.iloc[id]
 
     rowmax = len(leaf_length)
 
     length_list = []
     radius_list = []
 
-    for i in range(1, rowmax):
+    for i in range(1, rowmax): #리스트 채우기
     
         try:
             length = float(leaf_length[i])
@@ -130,20 +120,22 @@ def main():
              radius_list.append(radius)
         except ValueError:
             radius_list.append(0)
-    
+            
+    #반지름 리스트 재가공
+    midx = length_list.index(max(length_list))
+    max_radius = radius_list[midx]
+    real_leaf = len([i for i in length_list if i > 0])
 
-    print(rowmax, length_list, radius_list)
-
+    for i in range(real_leaf):
+        radius_list[i] = max_radius * (real_leaf/(real_leaf + i))
+      
     for i in range(rowmax-1):
 
         leaf(length_list[i], radius_list[i], i+1)
 
 
 
-
-
-    # print(leaf_length, leaf_area, senescence_ratio, rowmax, id)
-
+    #print(leaf_length, leaf_area, radius_list, real_leaf)
 
 
 if __name__ == "__main__":
