@@ -2,7 +2,7 @@ import bpy
 import math
 import pandas as pd
 
-def leaf(length, radius, w_list, idx):
+def leaf(length, radius, w_list, curve, idx):
 
     ### 엽마다 지정할 컬렉션 생성
     # 컬렉션 생성
@@ -40,7 +40,7 @@ def leaf(length, radius, w_list, idx):
     bpy.ops.mesh.bisect(plane_co=(0, 0, 0), plane_no=(1, 0, 0), clear_inner=True, clear_outer=False)
     # 오브젝트를의 폴리곤을 늘려서 부드럽게 바꿈
     bpy.ops.mesh.select_all(action='SELECT')
-    bpy.ops.mesh.subdivide(number_cuts=31)
+    bpy.ops.mesh.subdivide(number_cuts=63)
 
     # 5번 꼭짓점 선택
     bpy.ops.object.mode_set(mode = 'OBJECT')
@@ -66,7 +66,7 @@ def leaf(length, radius, w_list, idx):
 
 
     # 원형 커브 생성 - 이 커브를 따라서 오브젝트를 변형함
-    bpy.ops.curve.primitive_bezier_circle_add(radius=radius, enter_editmode=False, align='WORLD', location=(0, 0, 0))
+    bpy.ops.curve.primitive_bezier_circle_add(radius=radius, enter_editmode=False, align='WORLD', location=(0, 0, h))
     circle_curve = bpy.context.active_object
     circle_curve.name = f"leaf_circle{idx}"
     
@@ -86,7 +86,7 @@ def leaf(length, radius, w_list, idx):
     
     
     
-    bpy.ops.object.add(type='LATTICE', enter_editmode=False, align='WORLD', location=(0, 0, h))
+    bpy.ops.object.add(type='LATTICE', enter_editmode=False, align='WORLD', location=(0, 0, (length/2)+h))
     leaf_curve = bpy.context.active_object
     leaf_curve.name = f"leaf_curve{idx}"
     
@@ -96,10 +96,46 @@ def leaf(length, radius, w_list, idx):
     bpy.context.object.data.points_u = 1
     bpy.context.object.data.points_v = 1
 
+    bpy.context.object.scale[2] = length + a
 
-    ###
-    bpy.ops.transform.translate(value=(0, 0, 5), orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)))
+    bpy.context.view_layer.objects.active = mesh
+    bpy.ops.object.modifier_add(type='LATTICE')
+    bpy.context.object.modifiers["Lattice"].object = bpy.data.objects[f"leaf_curve{idx}"]
 
+    bpy.context.view_layer.objects.active = leaf_curve
+    bpy.ops.object.mode_set(mode = 'OBJECT')
+    bpy.context.object.data.points[0].select = True
+    bpy.ops.object.mode_set(mode = 'EDIT')
+    #bpy.ops.transform.translate(value=(0, 0, -h), orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL')
+
+    #1번 엽 y좌표 음수
+    #반지름 길이 length
+    #반지름 기준점 (0, 0, a/2 + h)
+    bpy.context.view_layer.objects.active = leaf_curve
+    bpy.context.object.data.points_w = 64
+
+    cx = 0
+    cy = a/2 + h
+    angle = math.radians(90 - (curve * 180))
+
+    x1 = cx + length * math.cos(angle)
+    y1 = cy + length * math.sin(angle)
+
+    # 최대 40퍼센트 차이?
+    # length * 1.2 = 1
+    # length * 1.4 = 1
+    # 1 부터 1.4 사이를 curve 퍼센트로 나타내기 = 1 / (1 + 0.4*curve)
+    
+    ## 임시로 90도로 잎의 꼭짓점을 이동했지만 잎의 곡선을 살리는 과정에서 길이가 늘어남. 20퍼센트정도 차이남
+    ## 이 현상은 잎의 길이가 길면 길수록 차이가 커짐
+    bpy.ops.object.mode_set(mode = 'OBJECT')
+    bpy.context.object.data.points[63].select = True
+    bpy.ops.object.mode_set(mode = 'EDIT')
+    # 곡선을 살린 버전
+    #bpy.ops.transform.translate(value=(0, ((-1)**(idx+1))*x1/(1+0.4*curve), y1 - (cy + length)), orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', use_proportional_edit=True, proportional_edit_falloff='SHARP', proportional_size=length)
+    # 곡선을 버린 버전
+    bpy.ops.transform.translate(value=(0, ((-1)**(idx+1))*x1, y1 - (cy + length)), orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', use_proportional_edit=True, proportional_edit_falloff='LINEAR', proportional_size=length)
+    bpy.ops.object.mode_set(mode = 'OBJECT')
 
 
 
@@ -110,13 +146,14 @@ def leaf(length, radius, w_list, idx):
 def main():
     leaf_length_df = pd.read_csv("C:/Users/robot/Documents/blender/length.csv") #기간 설정이 가능한데 일단 9월1일부터
     leaf_area_df = pd.read_csv("C:/Users/robot/Documents/blender/area.csv")
-    # senescence_ratio_df = pd.read_csv(C:/Users/robot/Documents/galicmodel/senescence_ratio.csv) #아직 안씀
+    green_area_df = pd.read_csv("C:/Users/robot/Documents/blender/green_area.csv")
+    development_df = pd.read_csv("C:/Users/robot/Documents/blender/development_phase.csv")
     # date = input("날짜입력(09-01부터 07-06)")
 
-    id = 300
+    date_idx = 200 # 숫자+1일
 
-    leaf_length = leaf_length_df.iloc[id]
-    leaf_area = leaf_area_df.iloc[id]
+    leaf_length = leaf_length_df.iloc[date_idx]
+    leaf_area = leaf_area_df.iloc[date_idx]
     # senescence_ratio = senescence_ratio_df.iloc[id]
 
     rowmax = len(leaf_length)
@@ -124,7 +161,7 @@ def main():
     length_list = []
     radius_list = []
 
-    for i in range(1, rowmax): #리스트 채우기
+    for i in range(1, rowmax): #엽 길이, 줄기 반지름 리스트 채우기
     
         try:
             length = float(leaf_length[i])
@@ -148,19 +185,64 @@ def main():
         #radius_list[i] = max_radius * ((real_leaf-i)/real_leaf) #
     
         
-    width_list = []
-        
+    width_list = [] # 줄기 둘레길이 리스트
+
     for i in range(rowmax-1):
         try:
              width = radius_list[i]*2*math.pi
              width_list.append(width)
         except ValueError:
             width_list.append(0)
+
+
+    curve_list = [] # 엽이 굽은 정도 리스트트
+
+    green_area_df.fillna(0, inplace=True)
+
+    for i in range(1, len(green_area_df.iloc[date_idx])):
+
+        if i+1 == len(green_area_df.iloc[date_idx]):
+            aaa = 0
+            bbb = 0
+            for ii in range(len(green_area_df.iloc[:, i])):
+                if green_area_df.iloc[ii, i] > 0:
+                    if development_df.iloc[ii, 1] == "bulb_growth_after_scape_appearance":
+                        aaa += 1
+                        if ii >= date_idx:
+                            bbb += 1
+            curve_list.append(1-(bbb/aaa))
+            continue
+            
+
+        if sum(green_area_df.iloc[date_idx, 1:]) == 0:
+            if date_idx < len(green_area_df.iloc[:, i])/2:
+                curve_list.append(0)
+                continue
+            else:
+                curve_list.append(1)
+                continue
+
+        if green_area_df.iloc[date_idx, i] != 0:
+            aaa = 0
+            bbb = 0
+            for ii in range(len(green_area_df.iloc[:, i])):
+                if green_area_df.iloc[ii, i] > 0:
+                    if green_area_df.iloc[ii, i+1] > 0:
+                        aaa += 1
+                        if ii >= date_idx:
+                            bbb += 1
+                else:
+                    continue
+            curve_list.append(1-(bbb/aaa))
+        else:
+            if sum(green_area_df.iloc[date_idx, i:]) > 0:
+                curve_list.append(1)
+            else:
+                curve_list.append(0)
         
-      
     for i in range(rowmax-1):
 
-        leaf(length_list[i], radius_list[i], width_list, i+1)
+        leaf(length_list[i], radius_list[i], width_list, curve_list[i], i+1)
         
         
     bpy.context.scene.frame_end = 60
